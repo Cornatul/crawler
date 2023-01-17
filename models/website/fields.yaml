@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: 'Website Name'
+        type: text
+    url:
+        label: 'Website Url'
+        type: text
+    username:
+        label: 'Website username'
+        type: text
+    password:
+        label: 'Website password'
+        type: text

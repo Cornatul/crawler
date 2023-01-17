@@ -1,0 +1,35 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: 'id'
+        searchable: true
+    title:
+        label: 'Feed Title'
+        searchable: true
+    categories:
+        label: 'Feeds Categories'
+        relation: categories
+        select: name
+        searchable: true
+        sortable: false
+    score:
+        label: 'Feed Score'
+        sortable: true
+        searchable: true
+    subscribers:
+        label: 'Subscribers'
+        sortable: true
+        searchable: true
+    created_at:
+        label: 'Created At'
+        type: datetime
+        searchable: true
+        sortable: true
+    sync:
+        label: 'Sync'
+        type: partial
+        clickable: false
+        partial: 'sync'

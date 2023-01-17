@@ -1,0 +1,20 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: 'ID'
+        searchable: true
+    name:
+        label: 'Name'
+        searchable: true
+    url:
+        label: 'Url'
+        searchable: true
+    username:
+        label: 'Username'
+        searchable: true
+    password:
+        label: 'Password'
+        searchable: true

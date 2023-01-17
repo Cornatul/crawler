@@ -1,0 +1,20 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: 'Feed Title'
+        type: text
+    url:
+        label: 'Feed Url'
+        type: text
+    score:
+        label: 'Feed Score'
+        type: text
+    categories:
+        type: relation
+    crawlers:
+        type: relation
+        label: Crawlers
+        select: (title)

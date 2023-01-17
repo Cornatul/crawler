@@ -1,0 +1,18 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: Title
+        type: text
+        span: left
+    status:
+        label: Status
+        span: right
+        type: dropdown
+        options: getStatusOptions
+    feeds:
+        label: Feeds
+        type: relation
+        select: (title)

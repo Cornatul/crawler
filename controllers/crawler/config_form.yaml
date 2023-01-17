@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: 'Crawlers'
+
+# Model Form Field configuration
+form: $/unixdevel/crawler/models/crawler/fields.yaml
+
+# Model Class name
+modelClass: UnixDevil\Crawler\Models\Crawler
+
+# Default redirect location
+defaultRedirect: unixdevil/crawler/crawler
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: unixdevel/crawler/crawler/update/:id
+    redirectClose: unixdevel/crawler/crawler
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: unixdevil/crawler/crawler
+    redirectClose: unixdevil/crawler/crawler
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title
