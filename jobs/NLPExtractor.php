@@ -16,6 +16,7 @@ use UnixDevil\Crawler\DTO\NLPArticleSentimentDTO;
 use UnixDevil\Crawler\DTO\NlpDTO;
 use UnixDevil\Crawler\Exceptions\NLPClientException;
 use UnixDevil\Crawler\Exceptions\NLPException;
+use UnixDevil\Crawler\Models\FeedArticle;
 use UnixDevil\Crawler\Models\LocalPost;
 use Winter\Blog\Models\Post;
 use Winter\Storm\Network\Http;
@@ -28,22 +29,22 @@ class NLPExtractor implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private string $url;
 
     private NLPArticleSentimentDTO $dto;
 
+    private int $tries;
+
     public function __construct(string $url)
     {
-        $this->queue = 'nlp-extractor';
+        $this->onQueue('nlp-extractor');
         $this->tries = 1;
-        $this->url = $url;
-        $this->dto = app(NLPContract::class)->getArticleSentiment($this->url);
+        $this->dto = app(NLPContract::class)->getArticleSentiment($url);
     }
 
     /**
      * Execute the job.
      */
-    public function handle(): void
+    final public function handle(): void
     {
         try {
             $postData = [
@@ -56,22 +57,22 @@ class NLPExtractor implements ShouldQueue
                 "published" => 1,
             ];
 
-            if (str_word_count($this->dto->text) > 500) {
-                LocalPost::create($postData);
+            if (str_word_count($this->dto->text) > 250) {
+                FeedArticle::create($postData);
             }
         } catch (NLPClientException $exception) {
             info($exception->getMessage());
         }
     }
 
-    public function failed($exception = null): void
+    final public function failed($exception = null): void
     {
         $this->delete();
     }
 
 
 
-    public function keywords(): array
+    final public function keywords(): array
     {
         return $this->dto->keywords;
     }

@@ -48,13 +48,13 @@ class NLPClient extends Client implements NLPContract
      */
     final public function getTrendingNews(string $category = "technology", string $country = "us"):array
     {
-
+        //todo move this to a service
         $response = $this->get("https://newsapi.org/v2/top-headlines?category={$category}&country={$country}&apiKey=c29a123962034057aac547e7321be062");
         $data =  json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         return $data['articles'];
     }
 
-    public function getTrendingKeywords(): array
+    final public function getTrendingKeywords(): array
     {
         return [];
         //todo implement this

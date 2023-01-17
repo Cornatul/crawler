@@ -1,0 +1,16 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: 'Article Title'
+        type: text
+    url:
+        label: 'Article Slug'
+        type: text
+    score:
+        label: 'Article excerpt'
+        type: text
+#    categories:
+#        type: relation

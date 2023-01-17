@@ -55,6 +55,11 @@ class Plugin extends PluginBase
                         'icon'        => 'icon-rss',
                         'url'         => Backend::url('unixdevil/crawler/feed'),
                     ],
+                    'feeds-articles' => [
+                        'label'       => 'Feed Articles',
+                        'icon'        => 'icon-pencil',
+                        'url'         => Backend::url('unixdevil/crawler/article'),
+                    ],
                 ]
             ]
         ];

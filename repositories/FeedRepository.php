@@ -13,7 +13,7 @@ use Winter\Blog\Models\Category;
  */
 class FeedRepository implements FeedContract
 {
-    public function find(int $recordID):Model
+    final public function find(int $recordID):Model
     {
         return Feed::find($recordID);
     }
@@ -34,11 +34,9 @@ class FeedRepository implements FeedContract
             $categoryModel = Category::firstOrNew([
                 "name" => $category
             ]);
-
             $feed->categories()->attach($categoryModel->id);
         }
     }
-
 
     final public function delete(int $recordID): int
     {

@@ -6,9 +6,9 @@ use Winter\Storm\Support\Str;
 /**
  * @param $id
  * @param $title
- * @method static LocalPost find($id)
+ * @method static FeedArticle find($id)
  */
-class LocalPost extends \Winter\Blog\Models\Post
+class FeedArticle extends \Winter\Blog\Models\Post
 {
     public $fillable = [
         'title' ,
