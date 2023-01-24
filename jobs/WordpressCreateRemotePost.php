@@ -27,7 +27,7 @@ class WordpressCreateRemotePost implements ShouldQueue
      */
     public function __construct(Website $website, Post $post)
     {
-        $this->queue = "default";
+//        $this->queue = "default";
         $this->website = $website;
         $this->post = $post;
     }
@@ -40,7 +40,7 @@ class WordpressCreateRemotePost implements ShouldQueue
      * @todo add support for custom post types
      * @todo add support for custom taxonomies
      */
-    public function handle(): void
+    final public function handle(): void
     {
 
         $this->client = new Client([
@@ -49,11 +49,9 @@ class WordpressCreateRemotePost implements ShouldQueue
         ]);
 
         try {
-
             $this->createPost();
 
             $this->createOrSelectCategory("News");
-
         } catch (GuzzleException|\JsonException $e) {
             info($e->getMessage());
         }
@@ -73,7 +71,7 @@ class WordpressCreateRemotePost implements ShouldQueue
         ]);
 
         $response = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        info(json_encode($response));
+        info(json_encode($response, JSON_THROW_ON_ERROR));
 
         info("createOrSelectCategory: " . $category);
     }
@@ -93,7 +91,7 @@ class WordpressCreateRemotePost implements ShouldQueue
         ]);
 
         $response = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        info(json_encode($response));
+        info(json_encode($response, JSON_THROW_ON_ERROR));
 
         info("createOrSelectTags: " . $tag);
     }
@@ -120,6 +118,5 @@ class WordpressCreateRemotePost implements ShouldQueue
         $response = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         info("Create post");
         info(json_encode($response));
-
     }
 }

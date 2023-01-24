@@ -11,7 +11,7 @@ class CreateCrawlersFeedsTable extends Migration
 {
     public function up():void
     {
-        Schema::create('unixdevil_crawlers_feeds', static function ($table) {
+        Schema::create('unixdevil_crawler_crawlers_feeds', static function ($table) {
             $table->engine = 'InnoDB';
             $table->integer('feed_id')->unsigned();
             $table->integer('crawler_id')->unsigned();
@@ -22,6 +22,6 @@ class CreateCrawlersFeedsTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('unixdevil_crawlers_feeds');
+        Schema::dropIfExists('unixdevil_crawler_crawlers_feeds');
     }
 }

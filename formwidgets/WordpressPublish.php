@@ -50,7 +50,7 @@ class WordpressPublish extends FormWidgetBase
     }
 
 
-    public function onPublishPost(): void
+    final public function onPublishPost(): void
     {
         $website = Website::find(post('website'));
         dispatch(new \UnixDevil\Crawler\Jobs\WordpressCreateRemotePost($website, $this->model));

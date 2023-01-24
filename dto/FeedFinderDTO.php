@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Normalizers\ModelNormalizer;
+use UnixDevil\Crawler\Models\Website;
 
 /**
  * @package UnixDevel\Crawler
@@ -45,6 +46,7 @@ class FeedFinderDTO extends Data
                 "last_update" => Carbon::parse($feed["updated"]),
                 "subscribers" => $feed["subscribers"] ?? "",
                 "categories" => $feed["topics"] ?? [],
+                "websites" => Website::all()->toArray() ?? [],
                 "imported" => $this->checkIfFeedImported(str_replace("feed/", "", $feed["id"]))
             ]);
         }

@@ -19,7 +19,7 @@ class Crawler extends Model
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'unixdevil_crawlers';
+    public $table = 'unixdevil_crawler_crawlers';
 
     /**
      * @var array Guarded fields
@@ -80,7 +80,7 @@ class Crawler extends Model
     public $belongsToMany = [
         'feeds' => [
             Feed::class,
-            'table' => 'unixdevil_crawlers_feeds',
+            'table' => 'unixdevil_crawler_crawlers_feeds',
         ],
     ];
     public $morphTo = [];

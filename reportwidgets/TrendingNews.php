@@ -3,7 +3,10 @@
 use Backend\Classes\ReportWidgetBase;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Config;
 use UnixDevil\Crawler\Clients\NLPClient;
+use UnixDevil\Crawler\Contracts\NLPContract;
+use UnixDevil\Crawler\Contracts\TrendingContract;
 
 /**
  * TrendingNews Report Widget
@@ -19,7 +22,7 @@ class TrendingNews extends ReportWidgetBase
      * Defines the widget's properties
      * @return array
      */
-    public function defineProperties():array
+    final public function defineProperties():array
     {
         return [
             'title' => [
@@ -32,20 +35,12 @@ class TrendingNews extends ReportWidgetBase
         ];
     }
 
-    /**
-     * Adds widget specific asset files. Use $this->addJs() and $this->addCss()
-     * to register new assets to include on the page.
-     * @return void
-     */
-    protected function loadAssets(): void
-    {
-    }
 
     /**
      * Renders the widget's primary contents.
      * @return string HTML markup supplied by this widget.
      */
-    public function render(): string
+    final public function render(): string
     {
         try {
             $this->prepareVars();
@@ -60,9 +55,9 @@ class TrendingNews extends ReportWidgetBase
      * Prepares the report widget view data
      * @throws \JsonException
      */
-    public function prepareVars(): void
+    final public function prepareVars(): void
     {
-        $this->vars["news"] =  (new NLPClient())->getTrendingNews();
+        $this->vars["news"] =  app(TrendingContract::class)->getHeadlines();
     }
 
 }

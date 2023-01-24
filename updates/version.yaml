@@ -4,6 +4,8 @@
     - v1.0.0/CreateFeedsTable.php
     - v1.0.0/CreateCrawlersFeedsTable.php
     - v1.0.0/CreateFeedsCategoriesTable.php
+    - v1.0.0/CreateFeedsArticlesTable.php
+    - v1.0.0/CreateFeedsWebsitesTable.php
     - v1.0.0/CreateFeedsLinksTable.php
     - v1.0.0/CreateBatchTable.php
     - v1.0.0/CreateWebsitesTable.php

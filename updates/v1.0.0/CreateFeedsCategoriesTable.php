@@ -11,7 +11,7 @@ class CreateFeedsCategoriesTable extends Migration
     public function up()
     {
 
-        Schema::create('unixdevil_feeds_categories', function($table)
+        Schema::create('unixdevil_crawler_feed_categories', function($table)
         {
             $table->engine = 'InnoDB';
             $table->integer('feed_id')->unsigned();
@@ -22,7 +22,7 @@ class CreateFeedsCategoriesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('unixdevil_feeds_categories');
+        Schema::dropIfExists('unixdevil_crawler_feed_categories');
     }
 
 }

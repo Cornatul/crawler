@@ -1,6 +1,7 @@
 <?php namespace UnixDevil\Crawler\Jobs;
 
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Bus\Batch;
@@ -30,63 +31,54 @@ class FeedCrawlerJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Feed $feed;
+    private Feed $feed;
 
     public int $tries = 1;
 
     public function __construct(Feed $feed)
     {
-        $this->queue = 'feed-crawler';
+//        $this->onQueue('feed-crawler');
+
         $this->feed = $feed;
     }
 
     /**
      * @throws Throwable
      */
-    public function handle(): void
+    final public function handle(): void
     {
-        try
-        {
+        try {
             $data = Reader::import($this->feed->url);
 
             /**
              *
              * @var $entry Rss
              */
-            foreach ($data as $key => $entry)
-            {
-                if ($entry->getDateCreated() < Carbon::now()->subDays(30))
-                {
+            foreach ($data as $key => $entry) {
+                if ($entry->getDateCreated() < Carbon::now()->subDays(30)) {
                     info("Entry older than 30 days, skipping {$entry->getDateCreated()->format('Y-m-d')}");
-
                     continue;
                 }
 
-                if(!Cache::has($entry->getLink()))
-                {
-                    Cache::put($entry->getLink(), $entry->getLink(), 60 * 60 * 24 * 30); //1 day in seconds
-
+                if (!Cache::has($entry->getLink())) {
+                    Cache::put($entry->getLink(), $entry->getLink(), 60 * 60 * (24 * 30) * 30); //30 days in seconds
                     info("New entry found we should process it - {$entry->getLink()}");
 
-                    dispatch(new NLPExtractor($entry->getLink()))->delay(5 + (5*$key));
-
-                }else{
+                    dispatch(new NLPExtractor($this->feed, $entry->getLink()))->delay(5 + (5*$key));
+                } else {
                     info("Entry already processed");
                 }
             }
-
+        } catch (FeedCrawlerJobException $exception) {
+            info("Something went wrong {$this->feed->url} - So we will delete this feed}");
+            $this->feed->delete();
         }
-        catch (FeedCrawlerJobException $exception)
-        {
-            info("Something went wrong {$exception->getMessage()}");
-        }
-
     }
 
-    public function failed($exception = null): void
+    final public function failed($exception = null): void
     {
         $this->delete();
+
         $this->feed->delete();
     }
-
 }

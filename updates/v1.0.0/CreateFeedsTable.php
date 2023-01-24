@@ -11,7 +11,7 @@ class CreateFeedsTable extends Migration
 {
     public function up():void
     {
-        Schema::create('unixdevil_feeds', static function($table)
+        Schema::create('unixdevil_crawler_feeds', static function($table)
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
@@ -29,7 +29,7 @@ class CreateFeedsTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('unixdevil_feeds');
+        Schema::dropIfExists('unixdevil_crawler_feeds');
     }
 
 }

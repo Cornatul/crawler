@@ -1,14 +1,26 @@
 <?php namespace UnixDevil\Crawler;
 
-
 use Backend\Facades\Backend;
-use Controller;
+use Backend\Classes\Controller;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
-use UnixDevil\Crawler\Clients\NLPClient;
+
+use UnixDevil\Crawler\Clients\SentimentClient;
+use UnixDevil\Crawler\Clients\TrendingClient;
+use UnixDevil\Crawler\Clients\WordpressClient;
+use UnixDevil\Crawler\Console\ClearEventLogs;
+use UnixDevil\Crawler\Console\HtmlExtractor;
+use UnixDevil\Crawler\Console\PythonPublisher;
 use UnixDevil\Crawler\Contracts\FeedContract;
 use UnixDevil\Crawler\Contracts\FeedFinderContract;
-use UnixDevil\Crawler\Contracts\NLPContract;
+
+use UnixDevil\Crawler\Contracts\SentimentContract;
+use UnixDevil\Crawler\Contracts\TrendingContract;
+use UnixDevil\Crawler\Contracts\WordpressContract;
 use UnixDevil\Crawler\FormWidgets\WordpressPublish;
+use UnixDevil\Crawler\Jobs\PublishPython;
 use UnixDevil\Crawler\ReportWidgets\TrendingKeywords;
 use UnixDevil\Crawler\ReportWidgets\TrendingNews;
 use UnixDevil\Crawler\Repositories\FeedRepository;
@@ -17,16 +29,21 @@ use System\Classes\PluginBase;
 use Winter\Blog\Classes\TagProcessor;
 use Winter\Blog\Models\Category;
 
-
 /**
  * @class Plugin
  */
 class Plugin extends PluginBase
 {
+
+    /**
+     * @var array Plugin dependencies
+     */
+    public $require = ['Winter.Blog'];
+
     /**
      * @return string[]
      */
-    public function pluginDetails(): array
+    final public function pluginDetails(): array
     {
         return [
             'name'        => 'Crawler',
@@ -56,8 +73,8 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('unixdevil/crawler/feed'),
                     ],
                     'feeds-articles' => [
-                        'label'       => 'Feed Articles',
-                        'icon'        => 'icon-pencil',
+                        'label'       => 'Articles',
+                        'icon'        => 'icon-blog',
                         'url'         => Backend::url('unixdevil/crawler/article'),
                     ],
                 ]
@@ -68,9 +85,31 @@ class Plugin extends PluginBase
 
     final public function register(): void
     {
+
+        $this->registerConsoleCommand('crawler.clear', ClearEventLogs::class);
+        $this->registerConsoleCommand('crawler.html', HtmlExtractor::class);
+        $this->registerConsoleCommand('crawler.publish', PythonPublisher::class);
+
+
         $this->app->bind(FeedFinderContract::class, FeedFinderService::class);
         $this->app->bind(FeedContract::class, FeedRepository::class);
-        $this->app->bind(NLPContract::class, NLPClient::class);
+        $this->app->bind(SentimentContract::class, SentimentClient::class);
+        $this->app->bind(TrendingContract::class, TrendingClient::class);
+        $this->app->bind(WordpressContract::class, WordpressClient::class);
+        $this->app->bind(ClientInterface::class, Client::class);
+
+        $this->registerCustomValues();
+    }
+
+
+    private function registerCustomValues(): void
+    {
+            $this->app->when(SentimentClient::class)
+            ->needs('$sentimentEndpoint')
+            ->give(Config::get('nlp.endpoint.sentiment'));
+        $this->app->when(TrendingClient::class)
+            ->needs('$trendingEndpoint')
+            ->give(Config::get('trending.endpoint'));
     }
 
 

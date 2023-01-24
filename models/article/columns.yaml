@@ -1,0 +1,17 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: 'id'
+        searchable: true
+    title:
+        label: 'Article Title'
+        searchable: true
+        relation: posts
+    sync:
+        label: 'Publish Article'
+        type: partial
+        clickable: false
+        partial: 'sync'

@@ -7,27 +7,28 @@ columns:
         label: 'id'
         searchable: true
     title:
-        label: 'Feed Title'
+        label: 'Title'
         searchable: true
     categories:
-        label: 'Feeds Categories'
+        label: 'Categories'
         relation: categories
         select: name
         searchable: true
         sortable: false
+    websites:
+        label: 'Websites'
+        relation: websites
+        select: name
+        searchable: true
+        sortable: false
     score:
-        label: 'Feed Score'
+        label: 'Score'
         sortable: true
         searchable: true
     subscribers:
         label: 'Subscribers'
         sortable: true
         searchable: true
-    created_at:
-        label: 'Created At'
-        type: datetime
-        searchable: true
-        sortable: true
     sync:
         label: 'Sync'
         type: partial

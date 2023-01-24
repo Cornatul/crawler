@@ -12,7 +12,7 @@ modelClass: UnixDevil\Crawler\Models\FeedArticle
 title: 'Feeds'
 
 # Link URL for each record
-recordUrl: unixdevil/crawler/article/update/:id
+recordUrl: unixdevil/crawler/article/preview/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records

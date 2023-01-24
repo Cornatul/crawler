@@ -1,7 +1,7 @@
 <div class="report-widget">
     <h3><?= e($this->property('title')) ?></h3>
 
-    <?php if (!isset($error)): ?>
+    <?php if (!isset($error)) : ?>
         <div class="control-list">
             <table class="table data">
                 <thead>
@@ -26,7 +26,7 @@
                         </td>
                         <td class="column-button nolink">
                             <a
-                                href="#"
+                                href="<?= Backend::url('unixdevil/crawler/trendingnews') ?>"
                                 target="_blank"
                                 class="btn btn-secondary btn-sm">
                                 Extract Article
@@ -40,7 +40,7 @@
                 </tbody>
             </table>
         </div>
-    <?php else: ?>
+    <?php else : ?>
         <p class="flash-message static warning"><?= e($error) ?></p>
     <?php endif ?>
 </div>

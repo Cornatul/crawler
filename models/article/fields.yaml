@@ -1,0 +1,20 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: 'Article Title'
+        type: text
+    url:
+        label: 'Article Slug'
+        type: text
+    score:
+        label: 'Article excerpt'
+        type: text
+    content:
+        tab: winter.blog::lang.post.tab_edit
+        type: Winter\Blog\FormWidgets\BlogMarkdown
+        cssClass: field-slim blog-post-preview
+        stretch: true
+        mode: split

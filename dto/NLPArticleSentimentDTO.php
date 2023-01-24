@@ -19,6 +19,7 @@ class NLPArticleSentimentDTO extends Data
     public ?string $date;
     public string $text;
     public string $html;
+    public string $markdown;
     public string $summary;
     public ?array $authors;
     public ?array $keywords;

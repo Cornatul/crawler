@@ -25,4 +25,9 @@ class Article extends Controller
 
         BackendMenu::setContext('UnixDevil.Crawler', 'crawler', 'article');
     }
+
+    final public function publish(){
+
+        $this->asExtension('FormController')->update_onPublish();
+    }
 }

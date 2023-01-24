@@ -13,8 +13,12 @@ fields:
         label: 'Feed Score'
         type: text
     categories:
+        label: "Categories"
+        type: relation
+    websites:
+        label: "Websites"
         type: relation
     crawlers:
+        label: "Crawlers"
         type: relation
-        label: Crawlers
         select: (title)

@@ -29,28 +29,60 @@ class SeedCrawlerPlugin extends Seeder
     {
 
 
-        $crawler = Crawler::create([
+
+        $laravelCrawler = Crawler::create([
             "title" => "Laravel",
             "status" => Crawler::FINISHED
         ]);
 
-        $feed = Feed::create([
-            "title" => $this->faker->name,
+
+        $unixCrawler = Crawler::create([
+            "title" => "UnixDevil",
+            "status" => Crawler::FINISHED
+        ]);
+
+
+        $securityFeed = Feed::create([
+            "title" => "Krebs on Security",
             "description" => $this->faker->paragraph(3),
             'score' => $this->faker->randomDigit(),
+            'subscribers' => $this->faker->randomDigit(),
             'url' => 'https://krebsonsecurity.com/feed/'
         ]);
 
-        Website::create([
-            "url" => 'https://lzomedia.com',
-            "username" => $this->faker->userName,
-            'password' => $this->faker->password,
+        $laraFeed = Feed::create([
+            "title" => "Laravel News",
+            "description" => $this->faker->paragraph(3),
+            'score' => $this->faker->randomDigit(),
+            'subscribers' => $this->faker->randomDigit(),
+            'url' => 'https://laravel-news.com/feed'
         ]);
 
-        $crawler->feeds()->save($feed);
+
+        $lzoMedia = Website::create([
+            "name" => "LzoMedia",
+            "url" => 'https://lzomedia.com',
+            "username" => "admin",
+            'password' => "garcelino87",
+        ]);
+
+        $unixDevil = Website::create([
+            "name" => "UnixDevil",
+            "url" => 'https://unixdevil.com',
+            "username" => "admin",
+            'password' => "garcelino87",
+        ]);
+
+
+        $laravelCrawler->feeds()->save($laraFeed);
+        $unixCrawler->feeds()->save($securityFeed);
 
         $category = (new \Winter\Blog\Models\Category)->get()->first();
 
-        $feed->categories()->attach($category);
+        $securityFeed->categories()->attach($category);
+        $securityFeed->websites()->attach($unixDevil);
+
+        $laraFeed->categories()->attach($category);
+        $laraFeed->websites()->attach($lzoMedia);
     }
 }
